@@ -1,0 +1,29 @@
+{
+    "project_info": {
+      "project_number": "905690845790",
+      "project_id": "gps-app-91bca",
+      "storage_bucket": "gps-app-91bca.firebasestorage.app"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:905690845790:android:d0f8b4d750417cf1311acf",
+          "android_client_info": {
+            "package_name": "com.example.gps_app"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBdhSpBAsNhM1VC1O0ziJN5dzS6sE46oqI"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
