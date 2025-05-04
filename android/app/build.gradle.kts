@@ -29,12 +29,20 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
+    signingConfigs {
+        create("release") {
+            keyAlias = "your-key-alias"
+            keyPassword = "your-key-password"
+            storeFile = file("path/to/your/keystore.jks")
+            storePassword = "your-store-password"
+        }
+    }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false // 如果需要啟用代碼混淆，設為 true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 }

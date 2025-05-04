@@ -1,3 +1,4 @@
+import 'dart:async'; // ← 加這行
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -32,11 +33,23 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng _userLocation = const LatLng(22.3193, 114.1694); // 預設：香港
+  Timer? _locationUpdateTimer;
 
   @override
   void initState() {
     super.initState();
     _getUserLocation();
+
+    // 每 10 秒更新一次位置
+    _locationUpdateTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      _getUserLocation();
+    });
+  }
+
+  @override
+  void dispose() {
+    _locationUpdateTimer?.cancel(); // 清理資源
+    super.dispose();
   }
 
   Future<void> _getUserLocation() async {
@@ -49,14 +62,14 @@ class _MapScreenState extends State<MapScreen> {
       _userLocation = LatLng(position.latitude, position.longitude);
       print("目前位置：${_userLocation.latitude}, ${_userLocation.longitude}");
     });
+
     FirebaseFirestore.instance.collection('users').doc('user1').set({
       'latitude': position.latitude,
       'longitude': position.longitude,
       'name': 'shadowz',
       'timestamp': FieldValue.serverTimestamp(),
     });
-    print("已經將位置儲存到 Firestore！");
-    // 這裡可以加上儲存位置到 Firestore 的邏輯
+    print("已更新位置到 Firestore！");
   }
 
   @override
