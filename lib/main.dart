@@ -98,10 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _isLoggingIn ? null : _signInAnonymously,
-              child:
-                  _isLoggingIn
-                      ? const CircularProgressIndicator()
-                      : const Text('開始'),
+              child: _isLoggingIn
+                  ? const CircularProgressIndicator()
+                  : const Text('開始'),
             ),
           ],
         ),
@@ -122,6 +121,8 @@ class _MapScreenState extends State<MapScreen> {
   String? _displayName;
   String? _uid;
   String _currentUserGroup = ''; // 初始化群組名稱
+  bool _isEmergencyActive = false;
+  DateTime? _lastEmergencyTime;
 
   @override
   void initState() {
@@ -174,6 +175,95 @@ class _MapScreenState extends State<MapScreen> {
         .set(userData, SetOptions(merge: true));
   }
 
+  Future<void> _sendEmergencyAlert() async {
+    if (_uid == null) {
+      print('錯誤：用戶ID為空');
+      return;
+    }
+
+    try {
+      print('開始發送緊急通知...');
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // 更新用戶文件中的緊急狀態
+      await FirebaseFirestore.instance.collection('users').doc(_uid).update({
+        'emergency_status': 'active',
+        'emergency_timestamp': FieldValue.serverTimestamp(),
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+      });
+
+      print('緊急通知已發送');
+
+      setState(() {
+        _isEmergencyActive = true;
+        _lastEmergencyTime = DateTime.now();
+      });
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('緊急通知已發送'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      print('發送緊急通知時發生錯誤: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('發送緊急通知失敗: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _cancelEmergencyAlert() async {
+    if (_uid == null) {
+      print('錯誤：用戶ID為空');
+      return;
+    }
+
+    try {
+      print('開始取消緊急狀態...');
+      print('當前用戶ID: $_uid');
+
+      // 更新用戶文件中的緊急狀態
+      await FirebaseFirestore.instance.collection('users').doc(_uid).update({
+        'emergency_status': 'cancelled',
+        'emergency_cancelled_at': FieldValue.serverTimestamp(),
+      });
+
+      print('緊急狀態已取消');
+
+      setState(() {
+        _isEmergencyActive = false;
+      });
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('緊急狀態已成功取消'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e, stackTrace) {
+      print('取消緊急狀態時發生錯誤: $e');
+      print('錯誤堆疊: $stackTrace');
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('取消緊急狀態失敗: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   void dispose() {
     if (_uid != null) {
@@ -190,6 +280,28 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: const Text('地圖'),
         actions: [
+          // 修改緊急按鈕的顯示邏輯
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(_uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              final isActive = snapshot.hasData &&
+                  (snapshot.data?.data()
+                          as Map<String, dynamic>?)?['emergency_status'] ==
+                      'active';
+              return IconButton(
+                icon: Icon(
+                  isActive ? Icons.warning_amber : Icons.warning,
+                  color: isActive ? Colors.red : Colors.white,
+                ),
+                onPressed:
+                    isActive ? _cancelEmergencyAlert : _sendEmergencyAlert,
+                tooltip: isActive ? '取消緊急狀態' : '發送緊急通知',
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
@@ -207,52 +319,69 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .where('group', isEqualTo: _currentUserGroup)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final markers =
-              snapshot.data!.docs
-                  .map((doc) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    final lat = data['latitude'];
-                    final lng = data['longitude'];
-                    final name = data['name'] ?? '未知';
-                    final uid = data['uid'];
-                    final group = data['group'] ?? ''; // 取得群組名稱
-                    final online = data['online'] ?? false;
+          final markers = snapshot.data!.docs
+              .map((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                final lat = data['latitude'];
+                final lng = data['longitude'];
+                final name = data['name'] ?? '未知';
+                final uid = data['uid'];
+                final group = data['group'] ?? '';
+                final online = data['online'] ?? false;
+                final emergencyStatus = data['emergency_status'] == 'active';
 
-                    // 只有當群組名稱匹配時，才顯示這個用戶
-                    if (group != _currentUserGroup) {
-                      return null; // 如果群組名稱不匹配，返回 null
-                    }
+                if (group != _currentUserGroup) {
+                  return null;
+                }
 
-                    Color color;
-                    if (uid == _uid) {
-                      color = Colors.green;
-                    } else if (online) {
-                      color = Colors.red;
-                    } else {
-                      color = Colors.grey;
-                    }
+                Color color;
+                if (uid == _uid) {
+                  color = Colors.green;
+                } else if (emergencyStatus) {
+                  color = Colors.red;
+                } else if (online) {
+                  color = Colors.blue;
+                } else {
+                  color = Colors.grey;
+                }
 
-                    return Marker(
-                      point: LatLng(lat, lng),
-                      width: 80,
-                      height: 80,
-                      child: Column(
-                        children: [
-                          Icon(Icons.person_pin_circle, color: color, size: 40),
-                          Text(name, style: const TextStyle(fontSize: 12)),
-                        ],
+                return Marker(
+                  point: LatLng(lat, lng),
+                  width: 80,
+                  height: 80,
+                  child: Column(
+                    children: [
+                      Icon(
+                        emergencyStatus
+                            ? Icons.warning
+                            : Icons.person_pin_circle,
+                        color: color,
+                        size: 40,
                       ),
-                    );
-                  })
-                  .where((marker) => marker != null)
-                  .cast<Marker>()
-                  .toList();
+                      Text(
+                        emergencyStatus ? '$name 需要協助' : name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: emergencyStatus ? Colors.red : null,
+                          fontWeight: emergencyStatus ? FontWeight.bold : null,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              })
+              .where((marker) => marker != null)
+              .cast<Marker>()
+              .toList();
 
           return FlutterMap(
             options: MapOptions(center: _userLocation, zoom: 16),
