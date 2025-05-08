@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # gps_app
+=======
+# gps_app_new
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
 
 A new Flutter project.
 

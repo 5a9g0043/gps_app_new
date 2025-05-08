@@ -42,7 +42,11 @@ packages:
     source: hosted
     version: "1.1.2"
   cloud_firestore:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: cloud_firestore
       sha256: a0f161b92610e078b4962d7e6ebeb66dc9cce0ada3514aeee442f68165d78185
@@ -114,7 +118,11 @@ packages:
     source: hosted
     version: "7.0.1"
   firebase_auth:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: firebase_auth
       sha256: cfc2d970829202eca09e2896f0a5aa7c87302817ecc0bdfa954f026046bf10ba
@@ -138,7 +146,11 @@ packages:
     source: hosted
     version: "5.12.0"
   firebase_core:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: firebase_core
       sha256: "26de145bb9688a90962faec6f838247377b0b0d32cc0abecd9a4e43525fc856c"
@@ -161,6 +173,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.17.5"
+<<<<<<< HEAD
   firebase_database:
     dependency: "direct main"
     description:
@@ -185,6 +198,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.5+7"
+=======
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
   fixnum:
     dependency: transitive
     description:
@@ -202,12 +217,21 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
+<<<<<<< HEAD
       sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
   flutter_map:
     dependency: "direct main"
+=======
+      sha256: "5398f14efa795ffb7a33e9b6a08798b26a180edac4ad7db3f231e40f82ce11e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
+  flutter_map:
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: flutter_map
       sha256: "87cc8349b8fa5dccda5af50018c7374b6645334a0d680931c1fe11bce88fa5bb"
@@ -225,7 +249,11 @@ packages:
     source: sdk
     version: "0.0.0"
   geolocator:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: geolocator
       sha256: "6cb9fb6e5928b58b9a84bdf85012d757fd07aab8215c5205337021c4999bad27"
@@ -272,6 +300,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.5"
+<<<<<<< HEAD
   google_identity_services_web:
     dependency: transitive
     description:
@@ -320,14 +349,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.4+4"
+=======
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
   http:
     dependency: transitive
     description:
       name: http
+<<<<<<< HEAD
       sha256: "2c11f3f94c687ee9bad77c171151672986360b2b001d109814ee7140b2cf261b"
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+=======
+      sha256: fe7ab022b76f3034adc518fb6ea04a82387620e19977665ea18d30a1cf43442f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
   http_parser:
     dependency: transitive
     description:
@@ -345,7 +383,11 @@ packages:
     source: hosted
     version: "0.20.2"
   latlong2:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: latlong2
       sha256: "98227922caf49e6056f91b6c56945ea1c7b166f28ffcd5fb8e72fc0b453cc8fe"
@@ -380,10 +422,17 @@ packages:
     dependency: transitive
     description:
       name: lints
+<<<<<<< HEAD
       sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+=======
+      sha256: c35bb79562d980e9a453fc715854e1ed39e24e7d0297a880ef54e17f9874a9d7
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.1"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
   lists:
     dependency: transitive
     description:
@@ -497,7 +546,11 @@ packages:
     source: hosted
     version: "2.1.0"
   shared_preferences:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct dev"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     description:
       name: shared_preferences
       sha256: "6e8bf70b7fef813df4e9a36f658ac46d107db4b4cfe1048b477d4e453a8159f5"
@@ -678,5 +731,9 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
+<<<<<<< HEAD
   dart: ">=3.7.0 <4.0.0"
+=======
+  dart: ">=3.7.2 <4.0.0"
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
   flutter: ">=3.27.0"

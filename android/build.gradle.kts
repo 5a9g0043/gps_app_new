@@ -19,6 +19,7 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+<<<<<<< HEAD
 plugins {
   // ...
   id("com.android.application")
@@ -39,3 +40,5 @@ dependencies {
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
 }
+=======
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3

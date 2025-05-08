@@ -8,7 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+<<<<<<< HEAD
 import 'package:gps_app/main.dart';
+=======
+import 'package:gps_app_new/main.dart';
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

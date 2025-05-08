@@ -5,9 +5,17 @@
 *.swp
 .DS_Store
 .atom/
+<<<<<<< HEAD
 .buildlog/
 .history
 .svn/
+=======
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
 migrate_working_dir/
 
 # IntelliJ related
@@ -27,7 +35,10 @@ migrate_working_dir/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+<<<<<<< HEAD
 .packages
+=======
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
 .pub-cache/
 .pub/
 /build/

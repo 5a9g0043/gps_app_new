@@ -27,7 +27,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
   Win32Window::Size size(1280, 720);
+<<<<<<< HEAD
   if (!window.Create(L"gps_app", origin, size)) {
+=======
+  if (!window.Create(L"gps_app_new", origin, size)) {
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

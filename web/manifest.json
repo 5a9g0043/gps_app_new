@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "gps_app",
     "short_name": "gps_app",
+=======
+    "name": "gps_app_new",
+    "short_name": "gps_app_new",
+>>>>>>> 415fd86423b23d9d3b26d35a3d12adf19642bff3
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
